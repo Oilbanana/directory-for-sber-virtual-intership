@@ -1,12 +1,12 @@
 package sber.directory;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.text.MessageFormat;
+import java.util.*;
 
 public class CityUtils {
-    public static ArrayList<City> cityArrayList = new ArrayList<>();
-    public static ArrayList<City> parse(){
+    protected static ArrayList<City> cityArrayList = new ArrayList<>();
+    protected static ArrayList<City> parse(){
         Scanner scan = new Scanner(System.in);
         System.out.println("Введите путь до справочника в текстовом формате ");
         String fileName = scan.nextLine();
@@ -22,12 +22,12 @@ public class CityUtils {
         }
         return cityArrayList;
     }
-    public static void  print (ArrayList<City> cityArrayList){
+    protected static void  print (ArrayList<City> cityArrayList){
         for (var city: cityArrayList){
             System.out.println(city);
         }
     }
-    public static  City parseFileString (String str){
+    protected static  City parseFileString (String str){
         Scanner scanner = new Scanner(str);
         scanner.useDelimiter(";");
         scanner.skip("\\d*");
@@ -40,9 +40,37 @@ public class CityUtils {
         if (scanner.hasNext()) {
             foundation = scanner.next();
         }
-
         scanner.close();
         return new City(name,region,district,population,foundation);
     }
+    protected static void findMax(ArrayList<City> cities){
+        City[] buffer = new City[cities.size()];
+        cities.toArray(buffer);
+        City current = buffer[0];
+        int maxIndex = 0;
+
+        for (int i = 0; i < buffer.length; i++) {
+            if (buffer[i].getPopulation() > current.getPopulation() ){
+                current = buffer[i];
+                maxIndex = i;
+            }
+        }
+        System.out.println(MessageFormat.format("[{0}] = {1}", maxIndex, buffer[maxIndex]));
+    }
+
+    protected static void  findAmountOfCities(ArrayList<City> cities){
+         Map<String,Integer> amountOfCities = new HashMap<>();
+         for (City city : cities){
+             if(!amountOfCities.containsKey(city.getRegion())){
+                 amountOfCities.put(city.getRegion(),1);
+             }
+             else{
+                 amountOfCities.put(city.getRegion(),amountOfCities.get(city.getRegion())+1);
+             }
+         }
+         for (var amount : amountOfCities.keySet()){
+             System.out.println( amount + " = " +  amountOfCities.get(amount));
+         }
+        }
 }
 

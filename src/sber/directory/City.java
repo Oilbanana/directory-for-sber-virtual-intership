@@ -7,6 +7,8 @@ public class City {
     int population;
     String foundation;
 
+
+
     public City (String name, String region, String district, int    population, String foundation){
         this.name = name;
         this.region = region;
@@ -21,6 +23,13 @@ public class City {
 
     public String getName() {
         return name;
+    }
+    public int getPopulation() {
+        return population;
+    }
+
+    public String getRegion() {
+        return region;
     }
 
     @Override
